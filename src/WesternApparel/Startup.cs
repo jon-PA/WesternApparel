@@ -50,7 +50,7 @@ namespace WesternApparel
              {
                  endpoints.MapControllerRoute(
                      name: "default",
-                     pattern: "{controller=Home}/{action=Index}/{id?}" );
+                     pattern: "{controller=Landing}/{action=Index}/{id?}" );
              } );
         }
     }
