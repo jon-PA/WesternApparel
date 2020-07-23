@@ -8,13 +8,13 @@ using WesternApparel.ViewModels;
 namespace WesternApparel.Controllers
 {
     [Route("/")]
-    public class HomepageController : Controller
+    public class LandingController : Controller
     {
         public ViewResult Index( )
         {
             return View( new BaseLayoutViewModel
             {
-                Title = "Home"
+                Title = "Western Apparel"
             } );
         }
     }
