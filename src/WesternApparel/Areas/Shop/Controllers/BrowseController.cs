@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WesternApparel.ViewModels;
 
-namespace WesternApparel.Controllers
+namespace WesternApparel.Areas.Shop.Controllers
 {
-    public class ShopController : Controller
+    [Area("Shop")]
+    public class BrowseController : Controller
     {
         public ViewResult Index( )
         {

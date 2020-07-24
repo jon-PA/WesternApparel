@@ -24,6 +24,8 @@ namespace WesternApparel
         public void ConfigureServices( IServiceCollection services )
         {
             services.AddControllersWithViews( );
+
+            services.AddRouting( options => options.LowercaseUrls = true );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,11 +49,15 @@ namespace WesternApparel
             app.UseAuthorization( );
 
             app.UseEndpoints( endpoints =>
-             {
-                 endpoints.MapControllerRoute(
-                     name: "default",
-                     pattern: "{controller=Landing}/{action=Index}/{id?}" );
-             } );
+            {
+                endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area:exists}/{controller}/{action=index}/{id?}" );
+
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Landing}/{action=Index}/{id?}" );
+            } );
         }
     }
 }
