@@ -7,10 +7,11 @@ using WesternApparel.ViewModels;
 
 namespace WesternApparel.Controllers
 {
-    [Route("/")]
+    [Route( "/" )]
     public class LandingController : Controller
     {
-        public ViewResult Index( )
+        [HttpGet]
+        public ViewResult LandingView( )
         {
             return View( new BaseLayoutViewModel
             {

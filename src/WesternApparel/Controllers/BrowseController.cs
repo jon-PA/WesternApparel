@@ -7,10 +7,11 @@ using WesternApparel.ViewModels;
 
 namespace WesternApparel.Areas.Shop.Controllers
 {
-    [Area("Shop")]
+    [Route( "shop/[controller]" )]
     public class BrowseController : Controller
     {
-        public ViewResult Index( )
+        [HttpGet]
+        public ViewResult BrowseView( )
         {
             return View( new BaseLayoutViewModel { Title = "Shop Western Apparel" } );
         }
