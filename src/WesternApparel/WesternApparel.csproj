@@ -13,13 +13,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Views\Shop\" />
     <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.6" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WesternApparel.Data.Dapper\WesternApparel.Data.Dapper.csproj" />
+    <ProjectReference Include="..\WesternApparel.Data\WesternApparel.Core.csproj" />
   </ItemGroup>
 
 </Project>

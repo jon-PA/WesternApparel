@@ -1,19 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WesternApparel.ViewModels;
+using WesternApparel.Core.ServiceContracts;
+using WesternApparel.Core.ViewModels;
+using WesternApparel.Requests;
 
 namespace WesternApparel.Areas.Shop.Controllers
 {
     [Route( "shop/[controller]" )]
     public class ProductController : Controller
     {
-        [HttpGet("{id}")]
-        public ViewResult ProductView( int id )
+        readonly IProductService ProductService;
+
+        public ProductController( IProductService productService )
         {
-            return View( new BaseLayoutViewModel { Title = $"Product {id}" } );
+            this.ProductService = productService;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ViewResult> ProductView( int id )
+        {
+            var vm = await ProductService.FetchProductPageDataAsync( id );
+
+            return View( vm );
         }
     }
 }

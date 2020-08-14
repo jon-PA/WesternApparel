@@ -1,19 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using WesternApparel.ViewModels;
+using WesternApparel.Requests;
+using WesternApparel.Core.ViewModels;
+using WesternApparel.Core.ServiceContracts;
+using System.Threading.Tasks;
 
 namespace WesternApparel.Areas.Shop.Controllers
 {
     [Route( "shop/[controller]" )]
     public class BrowseController : Controller
     {
-        [HttpGet]
-        public ViewResult BrowseView( )
+        readonly IBrowseService BrowseService;
+
+        public BrowseController( IBrowseService browseService )
         {
-            return View( new BaseLayoutViewModel { Title = "Shop Western Apparel" } );
+            this.BrowseService = browseService;
+        }
+
+        [HttpGet]
+        public async Task<ViewResult> BrowseView( [FromForm] BrowseViewRequest request = null )
+        {
+            var vm = await BrowseService.FetchBrowsePageProductsAsync( request?.Category, 12, request?.Page ?? 1 );
+
+            vm.Title = "Shop Western Apparel";
+
+            return View( vm );
         }
     }
 }
