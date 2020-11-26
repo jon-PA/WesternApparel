@@ -16,8 +16,8 @@ namespace WesternApparel.Data.Dapper
         public static IServiceCollection AddWADapperServices( this IServiceCollection services, Func<IServiceProvider, DbConnection> connectionFactory )
         {
             services.AddScoped<DbConnection>( connectionFactory );
-            services.AddScoped<IBrowseService, BrowseService>( );
-            services.AddScoped<IProductService, ProductService>( );
+            services.AddScoped<ICatalogRepository, CatalogRepository>( );
+            services.AddScoped<IProductRepository, ProductRepository>( );
 
             return services;
         }

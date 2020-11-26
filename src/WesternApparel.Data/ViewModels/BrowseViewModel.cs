@@ -8,6 +8,7 @@ namespace WesternApparel.Core.ViewModels
 
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
+        public string Category { get; set; }
     }
 
     public class ProductPreviewItem

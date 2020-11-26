@@ -1,26 +1,32 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WesternApparel.Core.Requests;
 using WesternApparel.Core.ServiceContracts;
 using WesternApparel.Core.ViewModels;
-using WesternApparel.Requests;
 
-namespace WesternApparel.Areas.Shop.Controllers
+namespace WesternApparel.Controllers
 {
     [Route( "shop/[controller]" )]
     public class ProductController : Controller
     {
-        readonly IProductService ProductService;
+        readonly IProductRepository _productRepository;
 
-        public ProductController( IProductService productService )
+        public ProductController( IProductRepository productRepository )
         {
-            this.ProductService = productService;
+            this._productRepository = productRepository;
         }
 
         [HttpGet("{id}")]
         public async Task<ViewResult> ProductView( int id )
         {
-            var vm = await ProductService.FetchProductPageDataAsync( id );
+            var vm = await _productRepository.FetchProductPageDataAsync( id );
+            vm.CartFormItem = new AddToCartRequest
+            {
+                ProductID = id,
+                Quantity = 1,
+                IsGiftItem = false
+            };
 
             return View( vm );
         }

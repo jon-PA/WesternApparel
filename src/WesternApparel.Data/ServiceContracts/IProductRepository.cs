@@ -6,7 +6,7 @@ using WesternApparel.Core.ViewModels;
 
 namespace WesternApparel.Core.ServiceContracts
 {
-    public interface IProductService
+    public interface IProductRepository
     {
         Task<ProductViewModel> FetchProductPageDataAsync( int productID );
     }

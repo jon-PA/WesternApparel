@@ -15,7 +15,7 @@ namespace WesternApparel.Controllers
         {
             return View( new BaseLayoutViewModel
             {
-                Title = "Western Apparel"
+                Title = "Landing"
             } );
         }
     }

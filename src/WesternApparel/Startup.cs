@@ -1,6 +1,7 @@
 using System;
 using System.Data.Common;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -33,6 +34,14 @@ namespace WesternApparel
                 .AddRazorRuntimeCompilation( )
                 ;
 
+
+            services.AddAuthentication( CookieAuthenticationDefaults.AuthenticationScheme )
+                .AddCookie( options =>
+                {
+                    options.LoginPath = "/account/login";
+                    options.LogoutPath = "/account/logout";
+                } );
+
             services.AddWADapperServices( CreateDbConnection );
             services.AddRouting( options => options.LowercaseUrls = true );
         }
@@ -55,6 +64,7 @@ namespace WesternApparel
 
             app.UseRouting( );
 
+            app.UseAuthentication( );
             app.UseAuthorization( );
 
             app.UseEndpoints( endpoints =>

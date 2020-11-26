@@ -1,0 +1,18 @@
+﻿@using System.Text
+@model string
+
+@{
+    StringBuilder currentPath = new StringBuilder( );
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Catalog" asp-action="BrowseView" asp-route-Category="">catalog</a></li>
+        @foreach( var crumb in Model.Split( "/" ) )
+        {
+            currentPath.Append( crumb );
+            <li class="breadcrumb-item"><a asp-controller="Catalog" asp-action="BrowseView" asp-route-Category="@currentPath.ToString()">@crumb</a></li>
+            currentPath.Append( '/' );
+        }
+    </ol>
+</nav>

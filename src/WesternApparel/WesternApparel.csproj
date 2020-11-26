@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,13 +9,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\styles\login.css" />
     <_ContentIncludedByDefault Remove="wwwroot\styles\site.css" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Shop\" />
     <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>

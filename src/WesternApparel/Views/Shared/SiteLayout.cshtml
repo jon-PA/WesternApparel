@@ -1,0 +1,57 @@
+﻿@{ Layout = "BaseLayout"; }
+
+@section Styles {
+    @RenderSection( "Styles", false )
+}
+@section Scripts {
+    @RenderSection( "Scripts", false )
+}
+
+<div id="page" style="grid-template-rows: auto 100fr auto">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Landing" asp-action="LandingView">Western Apparel</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Catalog" asp-action="BrowseView">Shop</a>
+                        </li>
+                    </ul>
+                    @if( User.Identity.IsAuthenticated )
+                    {
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="text-light">Hello, </span>@User.Identity.Name
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="userDropdownMenuLink">
+                                <a class="dropdown-item" href="#">My Cart</a>
+                                <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary font-weight-bold">Sign In</a>
+                    }
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <main role="main" class="pb-3">
+        @RenderBody( )
+
+    </main>
+
+    <footer class="border-top footer text-muted">
+        <div class="container p-2">
+            &copy; 2020 - Western Apparel - Jonathan Acampora
+        </div>
+    </footer>
+</div>

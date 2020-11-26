@@ -1,46 +1,16 @@
-﻿@model BaseLayoutViewModel
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="~/" />
-    <title>@Model.Title</title>
+    <title>@Model.Title - Western Apparrel</title>
     <link rel="stylesheet" href="~/styles/site.css" />
     @RenderSection( "Styles", required: false )
 </head>
 <body>
     <div id="page" class="min-vh-100">
-        <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark shadow-sm">
-                <div class="container">
-                    <a class="navbar-brand" asp-controller="Landing" asp-action="LandingView">Western Apparel</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Browse" asp-action="BrowseView">Shop</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-        <main role="main" class="pb-3">
-            @RenderBody( )
-
-        </main>
-
-        <footer class="border-top footer text-muted">
-            <div class="container p-2">
-                &copy; 2020 - Western Apparel - Jonathan Acampora
-            </div>
-        </footer>
+        @RenderBody( )
     </div>
     <script src="~/lib/jquery-3.5.1.slim.min.js"></script>
     <script src="~/lib/bootstrap-4.5.0/js/bootstrap.bundle.min.js"></script>

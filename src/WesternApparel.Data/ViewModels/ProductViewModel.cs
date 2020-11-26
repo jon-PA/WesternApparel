@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WesternApparel.Core.Requests;
 
 namespace WesternApparel.Core.ViewModels
 {
@@ -7,6 +8,8 @@ namespace WesternApparel.Core.ViewModels
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         public string DisplayPrice { get; set; }
+        
+        public string Category { get; set; }
 
         /// <summary>
         /// Value may include markup. Ensure script and other hazardous tags are removed before serving.
@@ -16,7 +19,7 @@ namespace WesternApparel.Core.ViewModels
 
         public string ThumbnailURL { get; set; }
 
-        public List<CrumbAnchor> CrumbsList { get; set; }
+        public AddToCartRequest CartFormItem { get; set; }
     }
 
     public class CrumbAnchor

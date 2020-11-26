@@ -7,11 +7,11 @@ using WesternApparel.Core.ViewModels;
 
 namespace WesternApparel.Data.Dapper
 {
-    public class ProductService : IProductService
+    public class ProductRepository : IProductRepository
     {
         readonly DbConnection Connection;
 
-        public ProductService( DbConnection connection )
+        public ProductRepository( DbConnection connection )
         {
             this.Connection = connection;
         }
@@ -21,7 +21,9 @@ namespace WesternApparel.Data.Dapper
             var vm = await Connection.QuerySingleOrDefaultAsync<ProductViewModel>(
                 @"SELECT
                     ID AS ProductID, 
+                    Name as Title, 
                     Name as ProductName, 
+                    Category as Category,
                     CONCAT('$', Convert(varchar, Price, 1)) AS DisplayPrice, 
                     ShortDescription AS ProductShortDescription,
                     LongDescription AS ProductFullDescription,

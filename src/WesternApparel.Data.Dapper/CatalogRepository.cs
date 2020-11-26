@@ -2,23 +2,26 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
+using WesternApparel.Core.Requests;
 using WesternApparel.Core.ServiceContracts;
 using WesternApparel.Core.ViewModels;
 
 namespace WesternApparel.Data.Dapper
 {
-    public class BrowseService : IBrowseService
+    public class CatalogRepository : ICatalogRepository
     {
         readonly DbConnection Connection;
 
-        public BrowseService( DbConnection connection )
+        public CatalogRepository( DbConnection connection )
         {
             this.Connection = connection;
         }
 
-        public async Task<BrowseViewModel> FetchBrowsePageProductsAsync( string category, int pageSize, int currentPage )
+        public async Task<BrowseViewModel> FetchBrowsePageProductsAsync( BrowseViewRequest request )
         {
-            var pageOffset = pageSize * (currentPage - 1);
+            var pageOffset = request.PageSize * (request.Page - 1);
+
+            var category = $"{request.Category ?? string.Empty}%";
 
             using var reader = await Connection.QueryMultipleAsync(
                 @"SELECT COUNT(*) AS TotalRecordCount FROM Products;
@@ -27,13 +30,15 @@ namespace WesternApparel.Data.Dapper
                     Name as ProductName, 
                     CONCAT('$', Convert(varchar, Price, 1)) AS DisplayPrice, 
                     ThumbnailURL
-                  FROM Products 
+                  FROM Products
+                  WHERE Category LIKE @Category
                   ORDER BY ID
                   OFFSET @PageOffset ROWS FETCH NEXT @PageSize ROWS ONLY;",
 
                 new { 
-                    PageSize = pageSize, 
-                    PageOffset = pageOffset 
+                    PageSize = request.PageSize, 
+                    PageOffset = pageOffset,
+                    Category = category
                 }
             );
 
@@ -42,9 +47,9 @@ namespace WesternApparel.Data.Dapper
 
             return new BrowseViewModel
             {
-                TotalPages = (int) System.Math.Ceiling( (float) totalRecords / pageSize ),
+                TotalPages = (int) System.Math.Ceiling( (float) totalRecords / request.PageSize ),
                 Products = products,
-                CurrentPage = currentPage,
+                CurrentPage = request.Page,
             };
         }
     }
