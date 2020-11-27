@@ -1,4 +1,4 @@
-﻿using System.Data.Common;
+﻿using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -10,9 +10,9 @@ namespace WesternApparel.Data.Dapper
 {
     public class CatalogRepository : ICatalogRepository
     {
-        readonly DbConnection Connection;
+        readonly IDbConnection Connection;
 
-        public CatalogRepository( DbConnection connection )
+        public CatalogRepository( IDbConnection connection )
         {
             this.Connection = connection;
         }

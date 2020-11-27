@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using System.Linq;
+﻿using System.Data;
 using System.Threading.Tasks;
 using Dapper;
 using WesternApparel.Core.ServiceContracts;
@@ -9,9 +8,9 @@ namespace WesternApparel.Data.Dapper
 {
     public class ProductRepository : IProductRepository
     {
-        readonly DbConnection Connection;
+        readonly IDbConnection Connection;
 
-        public ProductRepository( DbConnection connection )
+        public ProductRepository( IDbConnection connection )
         {
             this.Connection = connection;
         }

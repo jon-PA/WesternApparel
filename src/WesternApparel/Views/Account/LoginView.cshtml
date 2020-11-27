@@ -1,14 +1,16 @@
-﻿
+﻿@model LoginViewModel
+
 <div id="page" style="grid-template-rows: 100fr">
-    <form class="form-signin" asp-controller="Account" asp-action="Login">
+    <form class="form-signin needs-validation" novalidate asp-controller="Account" asp-action="Login">
+        <input type="hidden" asp-for="ReturnUrl" />
         <h1 class="h3 font-weight-normal mb-4">Welcome</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus="">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password">
+        <label for="inputEmail" class="sr-only" asp-for="EmailAddress">Email address</label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus="" asp-for="EmailAddress">
+        <label for="inputPassword" class="sr-only" asp-for="Password">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" asp-for="Password">
         <div class="custom-control custom-checkbox mt-4 mb-4">
-            <input type="checkbox" class="custom-control-input" id="remember-me-checkbox">
-            <label class="custom-control-label user-select-none has-tooltip" for="remember-me-checkbox" title="Stay logged after you close this window">Remember me</label>
+            <input type="checkbox" class="custom-control-input" asp-for="RetainLogin">
+            <label class="custom-control-label user-select-none has-tooltip" title="Stay logged after you close this window" asp-for="RetainLogin">Remember me</label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         <p class="mt-3">No Account? <a asp-controller="Account" asp-action="RegisterView">Register</a></p>
@@ -23,7 +25,13 @@
 @section Scripts {
     <script>
         $(function () {
-            $('.has-tooltip').tooltip();
+            $('.input-validation-error').each(function () {
+                let opt = {
+                    title: $(this).attr('data-val-required'),
+                    placement: 'right'
+                };
+                $(this).tooltip( opt ).tooltip( 'show' );
+            });
         });
     </script>
 }

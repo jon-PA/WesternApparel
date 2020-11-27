@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Common;
+using System.Data;
 using Microsoft.Extensions.DependencyInjection;
 using WesternApparel.Core.ServiceContracts;
 
@@ -13,9 +13,9 @@ namespace WesternApparel.Data.Dapper
         /// <param name="services">The service collection to register the services to</param>
         /// <param name="connectionFactory">Factory that creates the DBConnection used by Dapper. If it is supported by dapper, it should work here.</param>
         /// <returns></returns>
-        public static IServiceCollection AddWADapperServices( this IServiceCollection services, Func<IServiceProvider, DbConnection> connectionFactory )
+        public static IServiceCollection AddWADapperServices( this IServiceCollection services, Func<IServiceProvider, IDbConnection> connectionFactory )
         {
-            services.AddScoped<DbConnection>( connectionFactory );
+            services.AddScoped<IDbConnection>( connectionFactory );
             services.AddScoped<ICatalogRepository, CatalogRepository>( );
             services.AddScoped<IProductRepository, ProductRepository>( );
 

@@ -14,28 +14,38 @@ namespace WesternApparel.Controllers
     public class AccountController : Controller
     {
         [HttpGet( "login" )]
-        public ViewResult LoginView( )
+        public ViewResult LoginView( string returnUrl )
         {
-            return View( new BaseLayoutViewModel { Title = "Log in - WesternApparel" } );
-        }
+            return View( "LoginView", new LoginViewModel( ) { ReturnUrl = returnUrl } );
+        } 
 
         [HttpPost( "login" )]
-        public SignInResult Login( )
+        public IActionResult Login( LoginViewModel viewModel )
         {
+            if( !ModelState.IsValid )
+            {
+                viewModel.Password = string.Empty;
+                return View( "LoginView", viewModel );
+            }
+
             var id = new ClaimsIdentity(
                 new List<Claim>
                 {
-                    new Claim( ClaimTypes.Name, "joe_mama" )
+                    new Claim( ClaimTypes.Name, viewModel.EmailAddress )
                 },
                 CookieAuthenticationDefaults.AuthenticationScheme
             );
 
+            string redirectUri = Url.Action( "LandingView", "Landing" );
+            if( viewModel.ReturnUrl is not null && Url.IsLocalUrl( viewModel.ReturnUrl ) )
+                redirectUri = viewModel.ReturnUrl;
+            
             return SignIn(
                 new ClaimsPrincipal( id ),
 
                 new AuthenticationProperties
                 {
-                    RedirectUri = Url.Action( "LandingView", "Landing" )
+                    RedirectUri = redirectUri
                 },
                 CookieAuthenticationDefaults.AuthenticationScheme
             );
