@@ -35,3 +35,20 @@ input[type=number] {
 input.input-validation-error {
     border-color: $danger;
 }
+
+.vertical-input-group .form-control:first-of-type {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: 0;
+}
+
+.vertical-input-group .form-control:last-of-type {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.vertical-input-group .form-control:not(:last-of-type):not(:first-of-type) {
+    border-radius: 0;
+    border-bottom: 0;
+}
+

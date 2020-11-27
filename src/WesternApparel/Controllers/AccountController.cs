@@ -45,7 +45,8 @@ namespace WesternApparel.Controllers
 
                 new AuthenticationProperties
                 {
-                    RedirectUri = redirectUri
+                    RedirectUri = redirectUri,
+                    IsPersistent = viewModel.RetainLogin
                 },
                 CookieAuthenticationDefaults.AuthenticationScheme
             );
