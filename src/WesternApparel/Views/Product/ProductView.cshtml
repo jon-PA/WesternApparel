@@ -49,37 +49,48 @@
             @*         <button class="btn btn-primary font-weight-bold" type="submit">Add to Cart</button> *@
             @*     </div> *@
             @* </form> *@
-            <form asp-controller="Checkout" asp-action="AddToCart">
-                <input type="hidden" asp-for="CartFormItem.ProductID">
-                <div class="form-row align-items-center">
-                    <div class="col-sm-6 my-1">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div type="button" class="input-group-text">-</div>
+            @if( User.Identity?.IsAuthenticated is true )
+            {
+                <form asp-controller="Checkout" asp-action="AddToCart">
+                    <input type="hidden" asp-for="CartFormItem.ProductID ">
+                    <div class="form-row align-items-center">
+                        <div class="col-sm-6 my-1">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div type="button" class="input-group-text">-</div>
+                                </div>
+                                <input type="number" class="form-control" placeholder="0" maxlength="2"
+                                       asp-for="CartFormItem.Quantity ">
+                                <div class="input-group-append">
+                                    <div type="button" class="input-group-text">+</div>
+                                </div>
                             </div>
-                            <input type="number" class="form-control" placeholder="0" maxlength="2"
-                                   asp-for="CartFormItem.Quantity">
-                            <div class="input-group-append">
-                                <div type="button" class="input-group-text">+</div>
+                            <span asp-validation-for="CartFormItem.Quantity "></span>
+                        </div>
+                        <div class="col-auto my-1">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" asp-for="CartFormItem.IsGiftItem ">
+                                <label class="form-check-label" asp-for="CartFormItem.IsGiftItem ">
+                                    This item is a gift
+                                </label>
                             </div>
                         </div>
-                        <span asp-validation-for="CartFormItem.Quantity"></span>
                     </div>
-                    <div class="col-auto my-1">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" asp-for="CartFormItem.IsGiftItem">
-                            <label class="form-check-label" asp-for="CartFormItem.IsGiftItem">
-                                This item is a gift
-                            </label>
+                    <div class="form-row align-items-center justify-content-center">
+                        <div class="col-auto my-1">
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
                         </div>
                     </div>
-                </div>
-                <div class="form-row align-items-center justify-content-center">
-                    <div class="col-auto my-1">
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            }
+            else
+            {
+                
+                @* Add a login button, that upon login success redirects the user here *@
+                <a 
+                    asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("ProductView", "Product", new { id = Model.ProductID })" 
+                    class="mt-3 mb-2 mx-auto d-block btn btn-primary font-weight-bold has-tooltip tooltip-auto" data-placement="bottom" title="You must sign in before adding items into your cart">Sign In</a>
+            }
         </div>
     </div>
     <hr class="w-100"/>
@@ -104,11 +115,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        $(function () {
-            $('.has-tooltip').tooltip();
-        });
-    </script>
-}
