@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using WesternApparel.Core;
 using WesternApparel.Core.ViewModels;
 
 namespace WesternApparel.Controllers
@@ -28,11 +29,18 @@ namespace WesternApparel.Controllers
                 return View( "LoginView", viewModel );
             }
 
+            var user = new SystemUser
+            {
+                ID = 10001,
+                EmailAddress = viewModel.EmailAddress
+            };
             var id = new ClaimsIdentity(
-                new List<Claim>
-                {
-                    new Claim( ClaimTypes.Name, viewModel.EmailAddress )
-                },
+                user.GetPrincipalClaims( ),
+                // new List<Claim>
+                // {
+                    
+                    // new Claim( ClaimTypes.Name, viewModel.EmailAddress )
+                // },
                 CookieAuthenticationDefaults.AuthenticationScheme
             );
 

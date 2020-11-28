@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WesternApparel.Core.Requests;
+using WesternApparel.Core.ServiceContracts;
 using WesternApparel.Core.ViewModels;
+using WesternApparel.Services;
 
 namespace WesternApparel.Controllers
 {
@@ -14,46 +16,46 @@ namespace WesternApparel.Controllers
     [Route( "[controller]" )]
     public class CheckoutController : Controller
     {
-        [HttpPost]
-        public RedirectToActionResult AddToCart( [FromForm(Name = "CartFormItem")] AddToCartRequest request )
+        readonly SessionCartService _sessionCartService;
+        readonly IProductRepository _productRepository;
+
+        public CheckoutController( SessionCartService sessionCartService, IProductRepository productRepository )
         {
+            _sessionCartService = sessionCartService;
+            _productRepository = productRepository;
+        }
+
+        [HttpPost]
+        public async Task<RedirectToActionResult> AddToCart( [FromForm(Name = "CartFormItem")] AddToCartRequest request )
+        {
+            var user = HttpContext.User.GetSystemUser( );
+
+            var newCartItem = await _productRepository.FillCartItemInfo( request.ProductID );
+            if( newCartItem is not null )
+            {
+                newCartItem.Quantity = request.Quantity;
+                newCartItem.IsGiftItem = request.IsGiftItem;
+
+                await _sessionCartService.AddItemToCartAsync( newCartItem, user.ID );
+            }
+            else
+            {
+                // TODO: Should do something to let the user know the cart item was not successfully added
+            }
 
             return RedirectToAction( "CheckoutView"  );
         }
 
         [HttpGet]
-        public ViewResult CheckoutView( [FromForm] AddToCartRequest request = null )
+        public async Task<ViewResult> CheckoutView( [FromForm] AddToCartRequest request = null )
         {
+            var user = HttpContext.User.GetSystemUser( );
+            var userCart = await _sessionCartService.GetCartAsync( user.ID );
+            
             var vm = new CheckoutViewModel
             {
                 Title = "Checkout",
-                CartItems = new List<CartItem>()
-                {
-                    new CartItem()
-                    {
-                        ProductID = 1,
-                        ProductName = "Item 1",
-                        Quantity = 1,
-                        UnitProductPriceUSD = 15.00M,
-                        IsGiftItem = true
-                    },
-                    new CartItem()
-                    {
-                        ProductID = 2,
-                        ProductName = "Item 2",
-                        Quantity = 3,
-                        UnitProductPriceUSD = 5.00M,
-                        IsGiftItem = false
-                    },
-                    new CartItem()
-                    {
-                        ProductID = 4,
-                        ProductName = "Item 3",
-                        UnitProductPriceUSD = 7.99M,
-                        Quantity = 5,
-                        IsGiftItem = false
-                    },
-                }
+                CartItems = userCart?.CartItems
             };
 
             return View( vm );

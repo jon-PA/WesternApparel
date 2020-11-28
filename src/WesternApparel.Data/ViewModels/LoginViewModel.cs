@@ -5,9 +5,8 @@ namespace WesternApparel.Core.ViewModels
 {
     public class LoginViewModel : BaseLayoutViewModel
     {
-        public LoginViewModel( )
+        public LoginViewModel( ) : base( "Log in" )
         {
-            this.Title = "Log in";
         }
 
         public string ReturnUrl { get; set; }

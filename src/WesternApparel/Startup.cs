@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WesternApparel.Data.Dapper;
+using WesternApparel.Services;
 
 namespace WesternApparel
 {
@@ -27,9 +28,17 @@ namespace WesternApparel
             return new SqlConnection( config["WesternApparelDBConnection"] );
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices( IServiceCollection services )
         {
+            services.AddDistributedMemoryCache( );
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(6);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddControllersWithViews( )
                 .AddRazorRuntimeCompilation( )
                 ;
@@ -43,10 +52,11 @@ namespace WesternApparel
                 } );
 
             services.AddWADapperServices( CreateDbConnection );
+            services.AddHttpContextAccessor( );
+            services.AddScoped<SessionCartService>( );
             services.AddRouting( options => options.LowercaseUrls = true );
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
         {
             if( env.IsDevelopment( ) )
@@ -67,6 +77,8 @@ namespace WesternApparel
             app.UseAuthentication( );
             app.UseAuthorization( );
 
+            app.UseSession( );
+            
             app.UseEndpoints( endpoints =>
             {
                 endpoints.MapControllerRoute(

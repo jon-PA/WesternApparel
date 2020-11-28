@@ -38,5 +38,24 @@ namespace WesternApparel.Data.Dapper
 
             return vm;
         }
+
+        public async Task<CartItem> FillCartItemInfo( int productID )
+        {
+            var cartItem = await Connection.QuerySingleOrDefaultAsync<CartItem>(
+                @"SELECT 
+                        Name AS ProductName,
+                        Price AS UnitProductPriceUSD,
+                        ThumbnailURL AS ThumbnailURL
+                    FROM Products
+                    WHERE ID = @ProductID",
+                new
+                {
+                    ProductID = productID
+                });
+
+            cartItem.ProductID = productID;
+            
+            return cartItem;
+        }
     }
 }

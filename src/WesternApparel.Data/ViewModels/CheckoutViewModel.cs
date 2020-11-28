@@ -14,10 +14,14 @@ namespace WesternApparel.Core.ViewModels
         [Range(1, 10)]
         public int Quantity { get; set; }
         public bool IsGiftItem { get; set; }
+        public string ThumbnailURL { get; set; }
     }
     
     public class CheckoutViewModel : BaseLayoutViewModel
     {
+        public CheckoutViewModel( ) : base( "Checkout" )
+        { }
+
         public List<CartItem> CartItems { get; set; }
     }
 }
