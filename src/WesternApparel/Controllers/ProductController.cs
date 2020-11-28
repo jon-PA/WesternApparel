@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WesternApparel.Core.Requests;
 using WesternApparel.Core.ServiceContracts;
 using WesternApparel.Core.ViewModels;
+using WesternApparel.Services;
 
 namespace WesternApparel.Controllers
 {
@@ -11,10 +12,12 @@ namespace WesternApparel.Controllers
     public class ProductController : Controller
     {
         readonly IProductRepository _productRepository;
+        readonly SessionCartService _sessionCartService;
 
-        public ProductController( IProductRepository productRepository )
+        public ProductController( IProductRepository productRepository, SessionCartService sessionCartService )
         {
             this._productRepository = productRepository;
+            this._sessionCartService = sessionCartService;
         }
 
         [HttpGet("{id}")]
@@ -28,7 +31,31 @@ namespace WesternApparel.Controllers
                 IsGiftItem = false
             };
 
-            return View( vm );
+            return View( "ProductView", vm );
+        }
+
+        [HttpPost("{id?}")]
+        public async Task<IActionResult> AddToCart( [FromForm(Name = "CartFormItem")] AddToCartRequest request )
+        {
+            if( !ModelState.IsValid )
+                return await ProductView( request.ProductID );
+            
+            var user = HttpContext.User.GetSystemUser( );
+
+            var newCartItem = await _productRepository.FillCartItemInfo( request.ProductID );
+            if( newCartItem is not null )
+            {
+                newCartItem.Quantity = request.Quantity;
+                newCartItem.IsGiftItem = request.IsGiftItem;
+
+                await _sessionCartService.AddItemToCartAsync( newCartItem, user.ID );
+            }
+            else
+            {
+                // TODO: Should do something to let the user know the cart item was not successfully added
+            }
+
+            return RedirectToAction( "CheckoutView", "Checkout" );
         }
     }
 }

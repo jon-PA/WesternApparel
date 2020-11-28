@@ -26,7 +26,9 @@
             </div>
             <hr class="w-100"/>
             @* Short Description, may contain markup *@
+            <div>
             @Html.Raw( Model.ProductShortDescription )
+            </div>
             @* <form asp-controller="Checkout" asp-action="AddToCart" class="form-row"> *@
             @*     <input type="hidden" asp-for="CartFormItem.ProductID "> *@
             @*     <div class="col-form-label"> *@
@@ -51,8 +53,9 @@
             @* </form> *@
             @if( User.Identity?.IsAuthenticated is true )
             {
-                <form asp-controller="Checkout" asp-action="AddToCart">
-                    <input type="hidden" asp-for="CartFormItem.ProductID ">
+                <form asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.ProductID">
+                    @* <input type="hidden" name="id" value="@Model.ProductID"> *@
+                    <input type="hidden" asp-for="CartFormItem.ProductID">
                     <div class="form-row align-items-center">
                         <div class="col-sm-6 my-1">
                             <div class="input-group">

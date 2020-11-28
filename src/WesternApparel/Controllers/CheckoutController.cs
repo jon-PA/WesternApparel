@@ -25,27 +25,6 @@ namespace WesternApparel.Controllers
             _productRepository = productRepository;
         }
 
-        [HttpPost]
-        public async Task<RedirectToActionResult> AddToCart( [FromForm(Name = "CartFormItem")] AddToCartRequest request )
-        {
-            var user = HttpContext.User.GetSystemUser( );
-
-            var newCartItem = await _productRepository.FillCartItemInfo( request.ProductID );
-            if( newCartItem is not null )
-            {
-                newCartItem.Quantity = request.Quantity;
-                newCartItem.IsGiftItem = request.IsGiftItem;
-
-                await _sessionCartService.AddItemToCartAsync( newCartItem, user.ID );
-            }
-            else
-            {
-                // TODO: Should do something to let the user know the cart item was not successfully added
-            }
-
-            return RedirectToAction( "CheckoutView"  );
-        }
-
         [HttpGet]
         public async Task<ViewResult> CheckoutView( [FromForm] AddToCartRequest request = null )
         {
