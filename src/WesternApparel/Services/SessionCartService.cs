@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using WesternApparel.Core.ServiceContracts;
 using WesternApparel.Core.ViewModels;
 
 namespace WesternApparel.Services
 {
-    public class SessionCartService
+    public class SessionCartService : ICartService
     {
         readonly IHttpContextAccessor _httpContextAccessor;
 

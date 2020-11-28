@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WesternApparel.Core.ServiceContracts;
 using WesternApparel.Data.Dapper;
 using WesternApparel.Services;
 
@@ -53,7 +54,7 @@ namespace WesternApparel
 
             services.AddWADapperServices( CreateDbConnection );
             services.AddHttpContextAccessor( );
-            services.AddScoped<SessionCartService>( );
+            services.AddScoped<ICartService, SessionCartService>( );
             services.AddRouting( options => options.LowercaseUrls = true );
         }
 

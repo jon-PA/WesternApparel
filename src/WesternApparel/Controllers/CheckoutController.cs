@@ -16,20 +16,18 @@ namespace WesternApparel.Controllers
     [Route( "[controller]" )]
     public class CheckoutController : Controller
     {
-        readonly SessionCartService _sessionCartService;
-        readonly IProductRepository _productRepository;
+        readonly ICartService _cartService;
 
-        public CheckoutController( SessionCartService sessionCartService, IProductRepository productRepository )
+        public CheckoutController( ICartService cartService )
         {
-            _sessionCartService = sessionCartService;
-            _productRepository = productRepository;
+            _cartService = cartService;
         }
 
         [HttpGet]
         public async Task<ViewResult> CheckoutView( [FromForm] AddToCartRequest request = null )
         {
             var user = HttpContext.User.GetSystemUser( );
-            var userCart = await _sessionCartService.GetCartAsync( user.ID );
+            var userCart = await _cartService.GetCartAsync( user.ID );
             
             var vm = new CheckoutViewModel
             {

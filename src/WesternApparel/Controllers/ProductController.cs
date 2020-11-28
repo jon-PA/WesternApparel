@@ -12,12 +12,12 @@ namespace WesternApparel.Controllers
     public class ProductController : Controller
     {
         readonly IProductRepository _productRepository;
-        readonly SessionCartService _sessionCartService;
+        readonly ICartService _cartService;
 
-        public ProductController( IProductRepository productRepository, SessionCartService sessionCartService )
+        public ProductController( IProductRepository productRepository, ICartService cartService )
         {
             this._productRepository = productRepository;
-            this._sessionCartService = sessionCartService;
+            this._cartService = cartService;
         }
 
         [HttpGet("{id}")]
@@ -48,7 +48,7 @@ namespace WesternApparel.Controllers
                 newCartItem.Quantity = request.Quantity;
                 newCartItem.IsGiftItem = request.IsGiftItem;
 
-                await _sessionCartService.AddItemToCartAsync( newCartItem, user.ID );
+                await _cartService.AddItemToCartAsync( newCartItem, user.ID );
             }
             else
             {
