@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using WesternApparel.Core.Common;
 
-namespace WesternApparel.Core.ViewModels
+namespace WesternApparel.Core.Catalog
 {
     public class BrowseViewModel : BaseLayoutViewModel
     {
@@ -10,14 +11,7 @@ namespace WesternApparel.Core.ViewModels
         public int TotalPages { get; set; }
         public string Category { get; set; }
     }
-
-    public class ProductPreviewItem
-    {
-        public int ProductID { get; set; }
-        public string ProductName { get; set; }
-
-        public string DisplayPrice { get; set; }
-
-        public string ThumbnailURL { get; set; }
-    }
 }
+
+namespace WesternApparel.Core.ViewModels
+{ }

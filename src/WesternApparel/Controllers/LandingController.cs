@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using WesternApparel.Core.ViewModels;
+﻿using Microsoft.AspNetCore.Mvc;
+using WesternApparel.Core.Common;
 
 namespace WesternApparel.Controllers
 {

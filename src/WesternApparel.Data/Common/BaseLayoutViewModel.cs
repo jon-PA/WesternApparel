@@ -1,4 +1,4 @@
-﻿namespace WesternApparel.Core.ViewModels
+﻿namespace WesternApparel.Core.Common
 {
     public class BaseLayoutViewModel
     {

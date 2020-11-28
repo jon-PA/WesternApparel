@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using WesternApparel.Core.Requests;
-using WesternApparel.Core.ServiceContracts;
-using WesternApparel.Core.ViewModels;
-using WesternApparel.Services;
+using WesternApparel.Core.Cart;
+using WesternApparel.Core.Checkout;
 
 namespace WesternApparel.Controllers
 {

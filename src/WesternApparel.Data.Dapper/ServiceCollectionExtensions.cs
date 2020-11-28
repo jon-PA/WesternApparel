@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Data;
 using Microsoft.Extensions.DependencyInjection;
-using WesternApparel.Core.ServiceContracts;
+using WesternApparel.Core.Catalog;
+using WesternApparel.Core.Product;
 
 namespace WesternApparel.Data.Dapper
 {

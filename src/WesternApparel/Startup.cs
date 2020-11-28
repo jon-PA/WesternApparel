@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WesternApparel.Core.ServiceContracts;
+using WesternApparel.Core.Cart;
 using WesternApparel.Data.Dapper;
 using WesternApparel.Services;
 

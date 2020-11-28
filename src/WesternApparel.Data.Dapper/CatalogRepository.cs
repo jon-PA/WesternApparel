@@ -2,9 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using WesternApparel.Core.Requests;
-using WesternApparel.Core.ServiceContracts;
-using WesternApparel.Core.ViewModels;
+using WesternApparel.Core.Catalog;
 
 namespace WesternApparel.Data.Dapper
 {

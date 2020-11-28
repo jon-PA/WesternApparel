@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using WesternApparel.Core;
-using WesternApparel.Core.ViewModels;
+using WesternApparel.Core.Account;
+using WesternApparel.Core.Common;
 
 namespace WesternApparel.Controllers
 {

@@ -1,8 +1,8 @@
 ﻿using System.Data;
 using System.Threading.Tasks;
 using Dapper;
-using WesternApparel.Core.ServiceContracts;
-using WesternApparel.Core.ViewModels;
+using WesternApparel.Core.Cart;
+using WesternApparel.Core.Product;
 
 namespace WesternApparel.Data.Dapper
 {
