@@ -5,6 +5,9 @@ namespace WesternApparel.Core.Catalog
 {
     public class BrowseViewModel : BaseLayoutViewModel
     {
+        public BrowseViewModel( ) : base( "Shop" )
+        { }
+
         public List<ProductPreviewItem> Products { get; set; }
 
         public int CurrentPage { get; set; }
@@ -12,6 +15,3 @@ namespace WesternApparel.Core.Catalog
         public string Category { get; set; }
     }
 }
-
-namespace WesternApparel.Core.ViewModels
-{ }

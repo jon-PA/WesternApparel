@@ -28,7 +28,6 @@ namespace WesternApparel.Controllers
                 Page = request?.Page ?? 1
             });
 
-            vm.Title = "Shop Western Apparel";
             vm.Category = request?.Category;
 
             return View( vm );
