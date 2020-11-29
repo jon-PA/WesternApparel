@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WesternApparel.Core.Cart;
@@ -9,22 +10,32 @@ namespace WesternApparel.Controllers
     [Route( "[controller]" )]
     public class CartController : Controller
     {
-        readonly ICartService CartService;
+        readonly ICartService _cartService;
 
         public CartController( ICartService cartService )
         {
-            CartService = cartService;
+            _cartService = cartService;
         }
 
         [HttpGet]
         public async Task<ViewResult> CartView( )
         {
-            var user = User.GetSystemUser( );
+            var user = User.GetSystemUserOrThrow( );
             
             return View( new CartViewModel
             {
-                Cart = await CartService.GetCartAsync( user.ID )
+                Cart = await _cartService.GetCartAsync( user.ID )
             } );
+        }
+
+        [HttpGet("[action]")]
+        public async Task<RedirectToActionResult> RemoveCartItem( Guid cartItemID )
+        {
+            var user = User.GetSystemUserOrThrow(  );
+            
+            await _cartService.RemoveItemFromCartAsync( user.ID, cartItemID );
+
+            return RedirectToAction( "CartView" );
         }
     }
 }

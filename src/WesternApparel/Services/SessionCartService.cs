@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +40,8 @@ namespace WesternApparel.Services
             return session.Get<Cart>( CartKey( userID ) );
         }
 
-        public async Task AddItemToCartAsync( CartItem cartItem, int userID )
+        // TODO: Much of this will be moved into a service within the Core project, as it should be consistent and testable
+        public async Task AddItemToCartAsync( int userID, CartItem cartItem )
         {
             var session = await GetSession( );
 
@@ -59,8 +61,26 @@ namespace WesternApparel.Services
             }
             else
             {
+                if( cartItem.ID == default( Guid ) )
+                    cartItem.ID = Guid.NewGuid( );
+                
                 // The item with matching parameters was not in the cart, add new
                 existingCart.CartItems.Add( cartItem );
+            }
+            
+            session.Set( CartKey( userID ), existingCart );
+        }
+
+        public async Task RemoveItemFromCartAsync( int userID, Guid cartItemID )
+        {
+            var session = await GetSession( );
+
+            var existingCart = await GetCartAsync( session, userID );
+            if( existingCart != null )
+            {
+                var cartItem = existingCart.CartItems.FirstOrDefault( ci => ci.ID.Equals( cartItemID ) );
+                if( cartItem is not null )
+                    existingCart.CartItems.Remove( cartItem );
             }
             
             session.Set( CartKey( userID ), existingCart );

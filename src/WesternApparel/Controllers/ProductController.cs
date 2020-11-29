@@ -45,7 +45,7 @@ namespace WesternApparel.Controllers
                 newCartItem.Quantity = request.Quantity;
                 newCartItem.IsGiftItem = request.IsGiftItem;
 
-                await _cartService.AddItemToCartAsync( newCartItem, user.ID );
+                await _cartService.AddItemToCartAsync( user.ID, newCartItem );
             }
             else
             {

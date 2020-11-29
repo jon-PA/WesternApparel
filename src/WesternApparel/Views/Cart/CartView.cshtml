@@ -16,7 +16,7 @@
         }
     }
 
-    string GetSubtotalString( ) => Model.Cart.CartItems.Sum( i => i.UnitProductPriceUSD * i.Quantity ).ToString( "C" );
+    string GetSubtotalString( ) => Model.Cart?.CartItems?.Sum( i => i.UnitProductPriceUSD * i.Quantity ).ToString( "C" ) ?? "$0";
 }
 
 <div class="container">
@@ -39,18 +39,22 @@
                     { continue; }
                     
                     <li class="list-group-item lh-condensed">
-                        <a asp-controller="Product" asp-action="ProductView" asp-route-id="@cartItem.ProductID" class="text-dark text-decoration-none  d-flex justify-content-between">
-                            <img class="d-flex" style="width: 140px; max-height: 140px" src="@cartItem.ThumbnailURL" alt="@cartItem.ProductName"/>
+                        <div class="text-dark text-decoration-none d-flex justify-content-between">
+                            <a asp-controller="Product" asp-action="ProductView" asp-route-id="@cartItem.ProductID" >
+                                <img class="d-flex" style="width: 140px; max-height: 140px" src="@cartItem.ThumbnailURL" alt="@cartItem.ProductName"/>
+                            </a>
                             <div class="ml-2 flex-grow-1">
-                                <h5 class="my-0 font-weight-bold">@cartItem.ProductName</h5>
+                                <h5 class="my-0 font-weight-bold d-inline">@cartItem.ProductName</h5>
+                                <a asp-controller="Cart" asp-action="RemoveCartItem" asp-route-cartItemID="@cartItem.ID" class="d-inline text-muted ml-3">Remove</a>
+                                <br />
                                 @if( cartItem.IsGiftItem )
                                 {
                                     <small class="text-muted has-tooltip" data-placement="bottom" title="The item will be shipped in packaging that does not reveal it's contents.">This item is a gift</small>
                                 }
-                                <p>@Html.Raw(cartItem.ShortDescription)</p>
+                                <p>@Html.Raw( cartItem.ShortDescription )</p>
                             </div>
                             <span class="text-muted ml-1">@FormatCheckoutPrice( cartItem )</span> @* Obvious TODO: consider other cultures / currencies *@
-                        </a>
+                        </div>
                     </li>
                 }
             @* <li class="list-group-item d-flex justify-content-between bg-light"> *@
@@ -84,12 +88,15 @@
         <h4 class="mb-3">Subtotal</h4>
 
         <div class="card mb-2 p-4">
-            <div class="d-flex justify-content-between mb-2 flex-wrap">
+            <div class="d-flex justify-content-between flex-wrap">
                 <span>Price (USD)</span>
-                <h3 class="font-weight-bold" style="word-wrap: anywhere">@GetSubtotalString( )</h3>
+                <h3 class="font-weight-bold mb-0" style="word-wrap: anywhere">@GetSubtotalString( )</h3>
             </div>
             
-            <a asp-controller="Checkout" asp-action="CheckoutView" class="btn btn-primary font-weight-bold">Proceed to Checkout</a>
+            @if( Model.Cart?.CartItems?.Count > 0 )
+            {
+                <a asp-controller="Checkout" asp-action="CheckoutView" class="btn btn-primary font-weight-bold mt-3">Proceed to Checkout</a>
+            }
         </div>
         <form class="card p-2">
             <div class="input-group">

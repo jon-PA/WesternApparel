@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace WesternApparel.Core.Cart
@@ -6,12 +6,7 @@ namespace WesternApparel.Core.Cart
     public interface ICartService
     {
         Task<Cart> GetCartAsync( int userID );
-        Task AddItemToCartAsync( CartItem cartItem, int userID );
-    }
-
-    public class Cart
-    {
-        public int SystemUserID { get; set; }
-        public List<CartItem> CartItems { get; set; }
+        Task AddItemToCartAsync( int userID, CartItem cartItem );
+        Task RemoveItemFromCartAsync( int userID, Guid cartItemID );
     }
 }
