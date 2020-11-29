@@ -40,7 +40,6 @@ namespace WesternApparel.Services
             return session.Get<Cart>( CartKey( userID ) );
         }
 
-        // TODO: Much of this will be moved into a service within the Core project, as it should be consistent and testable
         public async Task AddItemToCartAsync( int userID, CartItem cartItem )
         {
             var session = await GetSession( );
@@ -53,7 +52,7 @@ namespace WesternApparel.Services
                     CartItems = new List<CartItem>( )
                 };
 
-            var itemInCart = existingCart.CartItems.FirstOrDefault( ci => ci.ProductID == cartItem.ProductID && ci.IsGiftItem == cartItem.IsGiftItem );
+            var itemInCart = existingCart.CartItems.FirstOrDefault( cartItem.RepresentsSameProduct );
             if( itemInCart != null )
             {
                 // The item was already in the cart with the same specs, just increase number

@@ -20,5 +20,13 @@ namespace WesternApparel.Core.Cart
         public bool IsGiftItem { get; set; }
         public string ThumbnailURL { get; set; }
         public string ShortDescription { get; set; }
+
+        /// <summary>
+        /// Returns true if both items are the same product, with the same configuration
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool RepresentsSameProduct( CartItem other ) =>
+            other != null && this.ProductID == other.ProductID && this.IsGiftItem == other.IsGiftItem;
     }
 }
