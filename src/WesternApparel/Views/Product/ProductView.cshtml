@@ -54,7 +54,6 @@
             @if( User.Identity?.IsAuthenticated is true )
             {
                 <form asp-controller="Product" asp-action="AddToCart" asp-route-id="@Model.ProductID">
-                    @* <input type="hidden" name="id" value="@Model.ProductID"> *@
                     <input type="hidden" asp-for="CartFormItem.ProductID">
                     <div class="form-row align-items-center">
                         <div class="col-sm-6 my-1">
@@ -63,17 +62,17 @@
                                     <div type="button" class="input-group-text">-</div>
                                 </div>
                                 <input type="number" class="form-control" placeholder="0" maxlength="2"
-                                       asp-for="CartFormItem.Quantity ">
+                                       asp-for="CartFormItem.Quantity">
                                 <div class="input-group-append">
                                     <div type="button" class="input-group-text">+</div>
                                 </div>
                             </div>
-                            <span asp-validation-for="CartFormItem.Quantity "></span>
+                            <span asp-validation-for="CartFormItem.Quantity"></span>
                         </div>
                         <div class="col-auto my-1">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" asp-for="CartFormItem.IsGiftItem ">
-                                <label class="form-check-label" asp-for="CartFormItem.IsGiftItem ">
+                                <input class="form-check-input" type="checkbox" asp-for="CartFormItem.IsGiftItem">
+                                <label class="form-check-label" asp-for="CartFormItem.IsGiftItem">
                                     This item is a gift
                                 </label>
                             </div>

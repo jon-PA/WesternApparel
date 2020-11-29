@@ -13,5 +13,6 @@ namespace WesternApparel.Core.Cart
 
         public bool IsGiftItem { get; set; }
         public string ThumbnailURL { get; set; }
+        public string ShortDescription { get; set; }
     }
 }

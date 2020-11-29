@@ -52,7 +52,7 @@ namespace WesternApparel.Controllers
                 // TODO: Should do something to let the user know the cart item was not successfully added
             }
 
-            return RedirectToAction( "CheckoutView", "Checkout" );
+            return RedirectToAction( "CartView", "Cart" );
         }
     }
 }

@@ -35,7 +35,7 @@
                         <a asp-controller="Product" asp-action="ProductView" asp-route-id="@cartItem.ProductID" class="d-block text-dark text-decoration-none">
                             <h6 class="my-0">@cartItem.ProductName</h6>
                             @if( cartItem.IsGiftItem ) {
-                                <small class="text-muted" title="The item will be shipped in packaging that does not reveal it's contents.">This item is a gift</small>
+                                <small class="text-muted has-tooltip" data-placement="bottom" title="The item will be shipped in packaging that does not reveal it's contents.">This item is a gift</small>
                             }
                         </a>
                         <span class="text-muted ml-1">@FormatCheckoutPrice(cartItem)</span> @* Obvious TODO: consider other cultures / currencies *@
@@ -49,7 +49,7 @@
             @*     <span class="text-success">-$5</span> *@
             @* </li> *@
                 <li class="list-group-item d-flex justify-content-between">
-                    <span>Total (USD)</span>
+                    <u>Total (USD)</u>
                     <strong>@Model.CartItems.Sum( i => i.UnitProductPriceUSD * i.Quantity ).ToString("C")</strong>
                 </li>
             }
@@ -62,20 +62,12 @@
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
-                    <span>Total (USD)</span>
+                    <u>Total (USD)</u>
                     <strong>$0</strong>
                 </li>
             }
         </ul>
 
-        <form class="card p-2">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Promo code">
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-secondary">Redeem</button>
-                </div>
-            </div>
-        </form>
     </div>
     <div class="col-md-8 order-md-1">
         <h4 class="mb-3">Billing address</h4>
@@ -221,7 +213,7 @@
                 </div>
             </div>
             <hr class="mb-4">
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Make Purchase</button>
         </form>
     </div>
 </div>

@@ -45,7 +45,8 @@ namespace WesternApparel.Data.Dapper
                 @"SELECT 
                         Name AS ProductName,
                         Price AS UnitProductPriceUSD,
-                        ThumbnailURL AS ThumbnailURL
+                        ThumbnailURL AS ThumbnailURL,
+                        ShortDescription AS ShortDescription
                     FROM Products
                     WHERE ID = @ProductID",
                 new

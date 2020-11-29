@@ -7,11 +7,11 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a asp-controller="Catalog" asp-action="BrowseView" asp-route-Category="">catalog</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Catalog" asp-action="BrowseView" asp-route-Category="" title="Return to catalog">catalog</a></li>
         @foreach( var crumb in Model.Split( "/" ) )
         {
             currentPath.Append( crumb );
-            <li class="breadcrumb-item"><a asp-controller="Catalog" asp-action="BrowseView" asp-route-Category="@currentPath.ToString()">@crumb</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Catalog" asp-action="BrowseView" asp-route-Category="@currentPath.ToString()" title="See more @crumb">@crumb</a></li>
             currentPath.Append( '/' );
         }
     </ol>
