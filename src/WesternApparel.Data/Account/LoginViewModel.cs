@@ -11,7 +11,7 @@ namespace WesternApparel.Core.Account
         public string ReturnUrl { get; set; }
 
         [Required( ErrorMessage = "Must provide a valid email address" )]
-        [EmailAddress]
+        [EmailAddress( ErrorMessage = "Must provide a valid email address")]
         public string EmailAddress { get; set; }
 
         [Required( ErrorMessage = "Must provide a valid password" )]
