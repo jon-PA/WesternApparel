@@ -48,7 +48,7 @@ namespace WesternApparel
             services.AddAuthentication( CookieAuthenticationDefaults.AuthenticationScheme )
                 .AddCookie( options =>
                 {
-                    options.LoginPath = "/account/login";
+                    options.LoginPath = "/account/register";
                     options.LogoutPath = "/account/logout";
                 } );
 

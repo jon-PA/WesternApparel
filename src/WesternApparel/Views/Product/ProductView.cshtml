@@ -67,12 +67,11 @@
                                     <div type="button" class="input-group-text">+</div>
                                 </div>
                             </div>
-                            <span asp-validation-for="CartFormItem.Quantity"></span>
                         </div>
                         <div class="col-auto my-1">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" asp-for="CartFormItem.IsGiftItem">
-                                <label class="form-check-label" asp-for="CartFormItem.IsGiftItem">
+                                <label class="form-check-label has-tooltip" asp-for="CartFormItem.IsGiftItem" title="Check this if the item should come in packaging that does not reveal it's contents">
                                     This item is a gift
                                 </label>
                             </div>

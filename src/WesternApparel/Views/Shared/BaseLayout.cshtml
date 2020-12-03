@@ -13,12 +13,23 @@
         @RenderBody( )
     </div>
     <script src="~/lib/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap-4.5.0/js/bootstrap.bundle.min.js"></script>
     @RenderSection( "Scripts", required: false )
     <script>
         $(function () {
             $('.has-tooltip').tooltip();
             $('.tooltip-auto').tooltip('show'); @* Items with this class will have their tooltip visible automatically *@
+            
+            $("form").bind("invalid-form.validate", function(event, validator) {
+                validator.errorList.forEach( function (error) {
+                    $(error.element)
+                        .attr('title', error.message)
+                        .attr('data-original-title', error.message)
+                        .tooltip( 'update' ).tooltip( 'show' );
+                });
+            });
         });
     </script>
 </body>

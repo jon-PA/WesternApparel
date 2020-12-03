@@ -1,19 +1,22 @@
-﻿
+﻿@model WesternApparel.Core.Account.RegisterViewModel
+@{ Layout = "BaseLayout"; }
+
 <div id="page" style="grid-template-rows: 100fr">
     <form class="form-signin" asp-controller="Account" asp-action="RegisterView">
+        <input type="hidden" asp-for="ReturnUrl" />
         <h1 class="h3 font-weight-normal mb-4">Welcome</h1>
         <p class="mb-2 text-muted">Enter your preferred credentials</p>
         <div class="vertical-input-group">
-        <input type="email" class="form-control" placeholder="Email address" autofocus="">
-        <input type="password" class="form-control" placeholder="Password">
-        <input type="password" class="form-control" placeholder="Confirm Password">
+            <input type="email" class="form-control" placeholder="Email address" autofocus="" asp-for="EmailAddress" data-placement="right">
+            <input type="password" class="form-control" placeholder="Password" asp-for="Password" data-placement="right">
+            <input type="password" class="form-control" placeholder="Confirm Password" asp-for="ConfirmPassword" data-placement="right">
         </div>
         <div class="custom-control custom-checkbox mt-4 mb-4">
-            <input type="checkbox" class="custom-control-input" id="remember-me-checkbox">
-            <label class="custom-control-label user-select-none has-tooltip" for="remember-me-checkbox" title="Stay logged after you close this window">Remember me</label>
+            <input type="checkbox" class="custom-control-input" asp-for="RetainLogin">
+            <label class="custom-control-label user-select-none has-tooltip" title="Stay logged after you close this window" asp-for="RetainLogin">Remember me</label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-        <p class="mt-3">Already have an Account? <a asp-controller="Account" asp-action="LoginView">Login</a></p>
+        <p class="mt-3">Already have an Account? <a asp-controller="Account" asp-action="LoginView" asp-route-returnUrl="@Model.ReturnUrl">Login</a></p>
         <p class="mt-3 mb-3 text-muted">Western Apparel © 2020</p>
     </form>
 </div>
@@ -24,12 +27,4 @@
 
 @section Styles {
     <link rel="stylesheet" href="~/styles/login.css" />
-}
-
-@section Scripts {
-    <script>
-        $(function () {
-            $('.has-tooltip').tooltip();
-        });
-    </script>
 }

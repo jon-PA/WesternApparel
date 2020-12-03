@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,9 @@ namespace WesternApparel.Controllers
         {
             return View( "LoginView", new LoginViewModel( ) { ReturnUrl = returnUrl } );
         } 
-
+        
         [HttpPost( "login" )]
-        public IActionResult Login( LoginViewModel viewModel )
+        public async Task<IActionResult> Login( LoginViewModel viewModel )
         {
             if( !ModelState.IsValid )
             {
@@ -33,28 +34,26 @@ namespace WesternApparel.Controllers
             };
             var id = new ClaimsIdentity(
                 user.GetPrincipalClaims( ),
-                // new List<Claim>
-                // {
-                    
-                    // new Claim( ClaimTypes.Name, viewModel.EmailAddress )
-                // },
                 CookieAuthenticationDefaults.AuthenticationScheme
             );
 
-            string redirectUri = Url.Action( "LandingView", "Landing" );
+            string redirectUri;
             if( viewModel.ReturnUrl is not null && Url.IsLocalUrl( viewModel.ReturnUrl ) )
                 redirectUri = viewModel.ReturnUrl;
+            else
+                redirectUri = Url.Action( "LandingView", "Landing" );
             
-            return SignIn(
+            await HttpContext.SignInAsync( 
+                CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal( id ),
 
                 new AuthenticationProperties
                 {
-                    RedirectUri = redirectUri,
                     IsPersistent = viewModel.RetainLogin
-                },
-                CookieAuthenticationDefaults.AuthenticationScheme
+                }
             );
+
+            return LocalRedirect( redirectUri );
         }
 
         [HttpGet( "logout" )]
@@ -70,9 +69,48 @@ namespace WesternApparel.Controllers
         }
 
         [HttpGet( "register" )]
-        public ViewResult RegisterView( )
+        public ViewResult RegisterView( string returnUrl )
         {
-            return View( new BaseLayoutViewModel { Title = "Register - WesternApparel" } );
+            return View( "RegisterView", new RegisterViewModel{ ReturnUrl = returnUrl } );
+        }
+
+        [HttpPost( "register" )]
+        public async Task<IActionResult> Register( RegisterViewModel viewModel )
+        {
+            if( !ModelState.IsValid )
+            {
+                viewModel.Password = string.Empty;
+                viewModel.ConfirmPassword = string.Empty;
+                return View( "RegisterView", viewModel );
+            }
+
+            var user = new SystemUser
+            {
+                ID = 10001,
+                EmailAddress = viewModel.EmailAddress
+            };
+            var id = new ClaimsIdentity(
+                user.GetPrincipalClaims( ),
+                CookieAuthenticationDefaults.AuthenticationScheme
+            );
+
+            string redirectUri;
+            if( viewModel.ReturnUrl is not null && Url.IsLocalUrl( viewModel.ReturnUrl ) )
+                redirectUri = viewModel.ReturnUrl;
+            else
+                redirectUri = Url.Action( "LandingView", "Landing" );
+            
+            await HttpContext.SignInAsync( 
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal( id ),
+
+                new AuthenticationProperties
+                {
+                    IsPersistent = viewModel.RetainLogin
+                }
+            );
+
+            return LocalRedirect( redirectUri );
         }
     }
 }
