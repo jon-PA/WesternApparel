@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using Microsoft.Extensions.DependencyInjection;
+using WesternApparel.Core.Account;
 using WesternApparel.Core.Catalog;
 using WesternApparel.Core.Product;
 
@@ -19,6 +20,7 @@ namespace WesternApparel.Data.Dapper
             services.AddScoped<IDbConnection>( connectionFactory );
             services.AddScoped<ICatalogRepository, CatalogRepository>( );
             services.AddScoped<IProductRepository, ProductRepository>( );
+            services.AddScoped<IAuthenticationProvider, AuthenticationProvider>( );
 
             return services;
         }

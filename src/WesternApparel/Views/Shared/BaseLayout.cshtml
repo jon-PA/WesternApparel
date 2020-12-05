@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@using System.Text
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,20 +19,60 @@
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap-4.5.0/js/bootstrap.bundle.min.js"></script>
     @RenderSection( "Scripts", required: false )
+    @* This will be moved into a scripts.js at some point *@
     <script>
+        @* This obviously will not *@ 
+        var serverSideValidationErrors = [
+            @Html.Raw( GenerateModelStateErrorElements() )
+        ];
+    
+        function displayErrorTooltip( err ) {
+            $( err.element )
+                .attr('title', err.message)
+                .attr('data-original-title', err.message)
+                .tooltip( 'update' ).tooltip( 'show' );
+            
+            $( err.element ).focus(); // Make sure at least one of the error fields are focused on load
+        }
+        
         $(function () {
             $('.has-tooltip').tooltip();
             $('.tooltip-auto').tooltip('show'); @* Items with this class will have their tooltip visible automatically *@
             
             $("form").bind("invalid-form.validate", function(event, validator) {
-                validator.errorList.forEach( function (error) {
-                    $(error.element)
-                        .attr('title', error.message)
-                        .attr('data-original-title', error.message)
-                        .tooltip( 'update' ).tooltip( 'show' );
-                });
+                validator.errorList.forEach( displayErrorTooltip );
             });
+            
+            serverSideValidationErrors.forEach( displayErrorTooltip );
         });
+            
     </script>
 </body>
 </html>
+
+@functions {
+
+    string GenerateModelStateErrorElements( )
+    {
+        StringBuilder sb = new StringBuilder( );
+
+        foreach( var (key, state) in ViewData.ModelState )
+        {
+            if( state.ValidationState != ModelValidationState.Invalid )
+                continue;
+
+            var errorMessage = state.Errors.FirstOrDefault( )?.ErrorMessage;
+            if( string.IsNullOrWhiteSpace( errorMessage ) )
+                continue;
+            
+            sb.Append( "{ element: 'input[name=" );
+            sb.Append( key );
+            sb.Append( "]', message: '" );
+            sb.Append( errorMessage );
+            sb.Append( "' }, \n" );
+        }
+
+        return sb.ToString( );
+    }
+
+}
